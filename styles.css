@@ -3,7 +3,7 @@ div#messages {
     width: 500px;
     overflow-y: auto;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     position:absolute;
     top: 50%;
@@ -42,8 +42,18 @@ div#messagesgradiant {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: 150px;
+    margin-top: -250px;
     margin-left: -250px;
+}
+
+#embed-player{
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -360px;
+    margin-left: 0px;
+    transform: translate(-50%, -50%);
 }
 
 .message{
