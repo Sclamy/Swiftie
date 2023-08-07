@@ -1,0 +1,54 @@
+div#messages {
+    height: 300px;
+    width: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -250px;
+
+    background-color: white;
+}
+
+div#messagesgradiant {
+    height: 300px;
+    width: 500px;
+
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -250px;
+
+    background-color: white;
+    background: -webkit-linear-gradient(
+            rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%
+    );
+    background: linear-gradient(
+            rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%
+    );
+    filter: alpha(
+            Opacity=0, FinishOpacity=100, Style=1, StartX=0, StartY=300, FinishX=0, FinishY=0
+    );
+}
+
+#txt-input{
+    box-sizing: border-box;
+    width:500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: 150px;
+    margin-left: -250px;
+}
+
+.message{
+
+}
+
+label#txt-input-label      {display:block; background:red; width:500px; margin:auto; text-align:right; vertical-align:middle; white-space:pre-wrap;}
+
