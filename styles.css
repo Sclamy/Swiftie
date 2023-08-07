@@ -1,58 +1,35 @@
 div#messages {
-    height: 300px;
-    width: 500px;
+    height: 15%;
+    width: 25%;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
 
-    position:absolute;
-    top: 50%;
+    position:fixed;
+    top: 40%;
     left: 50%;
-    margin-top: -150px;
-    margin-left: -250px;
+    transform: translate(-50%, -50%);
+
 
     background-color: white;
-}
-
-div#messagesgradiant {
-    height: 300px;
-    width: 500px;
-
-    position:absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -150px;
-    margin-left: -250px;
-
-    background-color: white;
-    background: -webkit-linear-gradient(
-            rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%
-    );
-    background: linear-gradient(
-            rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%
-    );
-    filter: alpha(
-            Opacity=0, FinishOpacity=100, Style=1, StartX=0, StartY=300, FinishX=0, FinishY=0
-    );
 }
 
 #txt-input{
     box-sizing: border-box;
-    width:500px;
-    position: absolute;
-    top: 50%;
+    border: 1px solid #000000;
+    padding: 2px;
+    width: 25%;
+    position:fixed;
+    top: 30%;
     left: 50%;
-    margin-top: -250px;
-    margin-left: -250px;
+    transform: translate(-50%, -50%);
 }
 
 #embed-player{
     box-sizing: border-box;
-    position: absolute;
-    top: 50%;
+    position:fixed;
+    top: 15%;
     left: 50%;
-    margin-top: -360px;
-    margin-left: 0px;
     transform: translate(-50%, -50%);
 }
 
