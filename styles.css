@@ -6,7 +6,7 @@ div#messages {
     flex-direction: column;
 
     position:fixed;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
@@ -20,7 +20,7 @@ div#messages {
     padding: 2px;
     width: 25%;
     position:fixed;
-    top: 30%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -28,7 +28,7 @@ div#messages {
 #player{
     box-sizing: border-box;
     position:fixed;
-    top: 15%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
 }

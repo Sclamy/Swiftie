@@ -20,10 +20,11 @@ function newMessage(e) {  // When a message is received from user
     // Add a new element!
     // $('.message').length
     //$('#messages').prepend('<l class="message">'+ text + '</l>');
-    addUserMessage(text);
+    // addUserMessage(text);
 
-    respond(text);
+    // respond(text);
 
+    clearSearchResults();
     search(text);
 
     // Remove all hidden elements
@@ -43,6 +44,14 @@ function addReflectionMessage(text) {  // Text from the reflection
     $('#messages').prepend('<l class="message" align="right">'+ text + '</l>');
 }
 
+function addSearchResult(text) {
+    $('#messages').append('<div class="message" align="right">'+ text + '</div>');
+}
+
+function clearSearchResults() {
+    $('#messages').empty();
+}
+
 function respond(text) {
     // Long function (or imports/uses text file?)
     var response;
@@ -57,7 +66,7 @@ function search(input_text) {
     // First, convert text to regex
     // \n.*[\s\[\]0-9:.]W[^\s\[\]0-9:.]*[\s\[\]0-9:.]+K[^\s\[\]0-9:.]*[\s\[\]0-9:.]+A[^\s\[\]0-9:.]*
     let regex = input_text.split("").join("[^\\s\\[\\]0-9:.]*[\\s\\[\\]0-9:.]+");  // Rest of word + whitespace
-    regex = '\\n.*[\\s\\[\\]0-9:.]' + regex + '[^\\s\\[\\]0-9:.]*';  // Beginning and end
+    regex = '\\n.*[\\s\\[\\]0-9:.](' + regex + '[^\\s\\[\\]0-9:.]*)';  // Beginning and end
     let myRe = new RegExp(regex, 'gi');
     console.log(regex);
     // Now, search for matches
@@ -66,10 +75,15 @@ function search(input_text) {
         .then((res) => res.text())
         .then((text) => {
             // do something with "text"
+            // split into header and lyrics
+            let pos = text.indexOf("[00");
+            let header = text.substring(0, pos);
+            let lyrics = text.substring(pos);
+
             let result;
             let embed_player = document.getElementById("embed-player");
-            while (result = myRe.exec(text)) {
-                addReflectionMessage(result);
+            while (result = myRe.exec(lyrics)) {
+                addSearchResult(result);
                 // Change the youtube link!
                 loadVideo('XzOvgu3GPwY', 0, 60);
             }
