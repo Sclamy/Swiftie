@@ -10,8 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // console.log(e.target.className);
         if (e.target.className == "query") {  // Go to link!!
             let id = e.target.getAttribute("videoid");
+            let startTime = e.target.getAttribute("starttime");
             // console.log('id is ' + id);
-            loadVideo(id, 0, 60);
+            console.log('startTime: ' + startTime);
+            loadVideo(id, startTime, 1000);
         }
     });
 })
@@ -128,8 +130,9 @@ function addSearchResult(lyrics, header) {
         }
         // Also turn every \n into a <br>
         lyrics[4] = lyrics[4].replaceAll("\n", "<br>");
+
         // And now print it
-        newLyric += '<span class="query" videoid="' + id + '">' + lyrics[4] + '</span>';
+        newLyric += '<span class="query" videoid="' + id + '" starttime="' + convertSeconds(startTime) + '">' + lyrics[4] + '</span>';
 
     }
 
@@ -222,4 +225,11 @@ function search(input_text) {
         })
         .catch((e) => console.error(e));
 
+}
+
+function convertSeconds(startTime) {
+    // Take in string in the form mm:ss.ss
+    let minutes = Number(startTime.substring(0, 2)) * 60;
+    let seconds = Number(startTime.substring(3, 8));
+    return minutes + seconds;
 }
