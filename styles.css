@@ -62,7 +62,8 @@ p {
 }
 
 .query {
-    background-color: #dcdcfa
+    background-color: #dcdcfa;
+    cursor: pointer;
 }
 
 .InfoButton {
