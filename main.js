@@ -44,19 +44,18 @@ function addReflectionMessage(text) {  // Text from the reflection
     $('#messages').prepend('<l class="message" align="right">'+ text + '</l>');
 }
 
-function addSearchResult(text) {
-    /*
-    let newLyric = 'div className="SongLyric">' +
+function addSearchResult(text, header) {
+
+    let newLyric = '<div className="SongLyric">' +
         '<p>Sweet like honey, karma is a cat<br>' +
         '<span className="lyric">' +
-    '<Purring in my <span
-        className="query">lap</span> 'cause it loves me</span><br>Flexing like a goddamn acrobat
-    </p>Karma, <i>Midnights</i>
-        <hr>
-    </div>
-    */
+        '<span className="query">Purring in my lap</span>' +
+        'cause it loves me</span><br>' +
+        'Flexing like a goddamn acrobat' +
+        '</p>Karma, <i>Midnights</i>' +
+        '<hr></div>';
 
-    $('#messages').append('<div class="message" align="right">'+ text + '</div>');
+    $('#messages').append(newLyric);
 }
 
 function clearSearchResults() {
@@ -108,9 +107,7 @@ function search(input_text) {
             let result;
             let embed_player = document.getElementById("embed-player");
             while (result = myRe.exec(lyrics)) {
-                addSearchResult("Result found:");
-                addSearchResult(result);
-                addSearchResult("\n\n");
+                addSearchResult(result, header);
                 // Change the youtube link!
                 loadVideo('XzOvgu3GPwY', 0, 60);
             }
