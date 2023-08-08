@@ -9,7 +9,7 @@ body {
 
 div#messages {
     height: 45%;
-    width: 75%;
+    width: 50%;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
