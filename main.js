@@ -1,3 +1,6 @@
+let matches;
+let foundLyrics;  // only comparing Lyrics (group 4)
+
 document.addEventListener('DOMContentLoaded', function() {
     var txt_input = document.getElementById("txt-input");
     txt_input.addEventListener("input", function (e) {
@@ -24,8 +27,6 @@ function newMessage(e) {  // When a message is received from user
     var txt_input = document.getElementById("txt-input");
     // var messages = document.getElementById("messages")
 
-    // TODO: Validate input?
-
     // Clear the input
     // txt_input.value = '';
 
@@ -37,6 +38,12 @@ function newMessage(e) {  // When a message is received from user
     // respond(text);
 
     clearSearchResults();
+
+    //Validate input
+    if(!(/^[a-zA-Z]+$/.test(text))) {
+        return;
+    }
+
     search(text);
 
     // Remove all hidden elements
@@ -132,8 +139,17 @@ function addSearchResult(lyrics, header) {
         // Also turn every \n into a <br>
         lyrics[4] = lyrics[4].replaceAll("\n", "<br>");
 
+        // Lastly, make sure not a duplicate!
+        if (!foundLyrics.has(lyrics[4].toLowerCase())) {
+            matches += 1;
+            foundLyrics.add(lyrics[4].toLowerCase());
+        } else {
+            return;
+        }
+
         // And now print it
-        newLyric += '<span class="query" videoid="' + id + '" starttime="' + convertSeconds(startTime) + '">' + lyrics[4] + '</span>';
+        newLyric += '<span class="query" videoid="' + id + '" starttime="' + convertSeconds(startTime) +
+            '">' + lyrics[4] + '</span>';
 
     }
 
@@ -166,6 +182,7 @@ function addSearchResult(lyrics, header) {
 
 function clearSearchResults() {
     $('#messages').empty();
+    counter.textContent = '';
 }
 
 function respond(text) {
@@ -198,13 +215,13 @@ async function search(input_text) {
     // Group 5: Suf-Lyrics (lyrics after but on the same line)
     // Group 6: Suffix with leading space [Don't Use This]
     // Group 7: Suffix (lyric after, empty if N/A)
-    let regex = input_text.split("").join("[^\\s\\[\\]0-9:.]*[\\s\\[\\]0-9:.\']+");  // Rest of word + whitespace
-    regex = '\(^|.*\\n)((.*[\\s\\[\\]0-9:.\'])(' + regex + '[^\\s\\[\\]0-9:.]*)(.*)($|\\n(.*)))';  // Beginning and end
+    let regex = input_text.split("").join("[a-zA-Z\']*[^a-zA-Z\']+");  // Rest of word + whitespace
+    regex = '\(^|.*\\n)((.*[^a-zA-Z\'])(' + regex + '[a-zA-Z\']*)(.*)($|\\n(.*)))';  // Beginning and end
     let myRe = new RegExp(regex, 'gi');
     console.log(regex);
     // Now, search for matches
-
-    let matches = 0;
+    matches = 0;
+    foundLyrics = new Set();
     await fetch("lyrics/Karma by Taylor Swift.lrc")
         .then((res) => res.text())
         .then((text) => {
@@ -215,10 +232,11 @@ async function search(input_text) {
             let lyrics = text.substring(pos);
 
             let result;
-            let embed_player = document.getElementById("embed-player");
             while (result = myRe.exec(lyrics)) {
+                // Check if already exists
+
+
                 myRe.lastIndex = result.index + result[1].length + result[3].length + 1;
-                matches += 1;
                 console.log(result);
 
                 addSearchResult(result, header);
