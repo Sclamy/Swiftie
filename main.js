@@ -45,6 +45,17 @@ function addReflectionMessage(text) {  // Text from the reflection
 }
 
 function addSearchResult(text) {
+    /*
+    let newLyric = 'div className="SongLyric">' +
+        '<p>Sweet like honey, karma is a cat<br>' +
+        '<span className="lyric">' +
+    '<Purring in my <span
+        className="query">lap</span> 'cause it loves me</span><br>Flexing like a goddamn acrobat
+    </p>Karma, <i>Midnights</i>
+        <hr>
+    </div>
+    */
+
     $('#messages').append('<div class="message" align="right">'+ text + '</div>');
 }
 
@@ -65,8 +76,22 @@ function search(input_text) {
     // We expect that text is a string of letters (and has been validated)
     // First, convert text to regex
     // \n.*[\s\[\]0-9:.]W[^\s\[\]0-9:.]*[\s\[\]0-9:.]+K[^\s\[\]0-9:.]*[\s\[\]0-9:.]+A[^\s\[\]0-9:.]*
-    let regex = input_text.split("").join("[^\\s\\[\\]0-9:.]*[\\s\\[\\]0-9:.]+");  // Rest of word + whitespace
-    regex = '\\n.*[\\s\\[\\]0-9:.](' + regex + '[^\\s\\[\\]0-9:.]*)';  // Beginning and end
+    // (^|\n).*[\s\[\]0-9:.](y[^\s\[\]0-9:.]*[\s\[\]0-9:.]+t[^\s\[\]0-9:.]*[\s\[\]0-9:.]+s[^\s\[\]0-9:.]*)
+    // (^|\n).*[\s\[\]0-9:.]((f[^\s\[\]0-9:.]*[\s\[\]0-9:.]+t[^\s\[\]0-9:.]*[\s\[\]0-9:.]+h[^\s\[\]0-9:.]*).*)
+    // (^|\n)(.*[\s\[\]0-9:.](o[^\s\[\]0-9:.]*[\s\[\]0-9:.]+i[^\s\[\]0-9:.]*[\s\[\]0-9:.]+a[^\s\[\]0-9:.]*).*)
+    // ^|\n(.*[\s\[\]0-9:.](o[^\s\[\]0-9:.]*[\s\[\]0-9:.]+i[^\s\[\]0-9:.]*[\s\[\]0-9:.]+a[^\s\[\]0-9:.]*).*)
+    // (^|.*\n)(.*[\s\[\]0-9:.](a[^\s\[\]0-9:.]*[\s\[\]0-9:.]+t[^\s\[\]0-9:.]*[\s\[\]0-9:.]+b[^\s\[\]0-9:.]*).*)
+    // (^|.*\n)(.*[\s\[\]0-9:.](a[^\s\[\]0-9:.]*[\s\[\]0-9:.]+t[^\s\[\]0-9:.]*[\s\[\]0-9:.]+b[^\s\[\]0-9:.]*).*($|\n.*))
+    // (^|.*\n)((.*[\s\[\]0-9:.](a[^\s\[\]0-9:.]*[\s\[\]0-9:.]+t[^\s\[\]0-9:.]*[\s\[\]0-9:.]+b[^\s\[\]0-9:.]*).*)($|\n.*))
+    // (^|.*\n)(.*[\s\[\]0-9:.'](d[^\s\[\]0-9:.]*[\s\[\]0-9:.']+c[^\s\[\]0-9:.]*[\s\[\]0-9:.']+i[^\s\[\]0-9:.]*).*)($|\n(.*))
+
+    // Group 1: Prefix (lyric before, empty if N/A)
+    // Group 2: Lyrix Lines (all line(s) containing the lyrics)
+    // Group 3: Lyrics (the actual phrase that matches)
+    // Group 4: Suffix with leading space [Don't Use This]
+    // Group 5: Suffix (lyric after, empty if N/A)
+    let regex = input_text.split("").join("[^\\s\\[\\]0-9:.']*[\\s\\[\\]0-9:.]+");  // Rest of word + whitespace
+    regex = '\(^|.*\\n)(.*[\\s\\[\\]0-9:.\'](' + regex + '[^\\s\\[\\]0-9:.]*).*)($|\\n(.*))';  // Beginning and end
     let myRe = new RegExp(regex, 'gi');
     console.log(regex);
     // Now, search for matches
@@ -83,7 +108,9 @@ function search(input_text) {
             let result;
             let embed_player = document.getElementById("embed-player");
             while (result = myRe.exec(lyrics)) {
+                addSearchResult("Result found:");
                 addSearchResult(result);
+                addSearchResult("\n\n");
                 // Change the youtube link!
                 loadVideo('XzOvgu3GPwY', 0, 60);
             }
