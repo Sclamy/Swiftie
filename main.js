@@ -215,8 +215,8 @@ async function search(input_text) {
     // Group 5: Suf-Lyrics (lyrics after but on the same line)
     // Group 6: Suffix with leading space [Don't Use This]
     // Group 7: Suffix (lyric after, empty if N/A)
-    let regex = input_text.split("").join("[a-zA-Z\']*[^a-zA-Z\']+");  // Rest of word + whitespace
-    regex = '\(^|.*\\n)((.*[^a-zA-Z\'])(' + regex + '[a-zA-Z\']*)(.*)($|\\n(.*)))';  // Beginning and end
+    let regex = input_text.split("").join("[a-zA-Z\']*[^a-zA-Z]+");  // Rest of word + whitespace
+    regex = '\(^|.*\\n)((.*[^a-zA-Z])(' + regex + '[a-zA-Z\']*)(.*)($|\\n(.*)))';  // Beginning and end
     let myRe = new RegExp(regex, 'gi');
     console.log(regex);
     // Now, search for matches
