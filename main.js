@@ -44,16 +44,71 @@ function addReflectionMessage(text) {  // Text from the reflection
     $('#messages').prepend('<l class="message" align="right">'+ text + '</l>');
 }
 
-function addSearchResult(text, header) {
-
+function addSearchResult(lyrics, header) {
+    let startTime = null;  // this is unparsed, in form mm:ss.ss
     let newLyric = '<div class="SongLyric">' +
-        '<p>Sweet like honey, karma is a cat<br>' +
-        '<span class="lyric">' +
-        '<span class="query">Purring in my lap</span>' +
-        ' cause it loves me</span><br>' +
-        'Flexing like a goddamn acrobat' +
-        '</p>Karma, <i>Midnights</i>' +
-        '<hr></div>';
+        '<p>';
+
+    // Prefix
+    if (lyrics[1] && lyrics[1] != '\n') {
+        // Filter it first! remove the first part)
+        let pos = lyrics[1].indexOf("]");
+        startTime = lyrics[1].substring(1, pos);
+        let prefix = lyrics[1].substring(pos+1);
+        newLyric += '' + prefix + '<br>';
+        console.log(lyrics[1]);
+        console.log(startTime);
+        console.log(prefix);
+    }
+
+    // Text!
+    newLyric += '' + '<span class="lyric">';
+    // Filter it first! Use a loop to remove all stuff
+    if (lyrics[3]) { // Remove timestamp, and check if we need it
+        let pos = lyrics[3].indexOf("]");
+        if (!startTime){  // Obtain startTime here, if didn't get from a prefix
+            startTime = lyrics[3].substring(1, pos);
+        }
+        let prelyrics = lyrics[3].substring(pos+1);
+        if (prelyrics.slice(-1) == "'") {  // Random case, want to include this in the word
+            prelyrics = prelyrics.slice(0, -1);  // Remove it from the end
+            lyrics[4] = "'" + lyrics[4];  // Add it to the front of the lyrics!
+        }
+        newLyric += '' + prelyrics;
+    }
+
+    if (lyrics[4]) {  // There better be matching lyrics lol
+        // This could start at the start of a line (with [timestamp]), or in the middle...
+        // It also can include any number of timestamps!!!
+        // First check if we still need prefix
+        let matchedlyrics = null;
+        if (!startTime) {
+            let pos = lyrics[4].indexOf("]");
+            startTime = lyrics[4].substring(1, pos);
+            matchedlyrics = lyrics[4].substring(pos+1);
+        }
+        // At this point, it could still start with a timestamp, but it doesn't matter
+        // We just need to remove (discard) all timestamps!
+        let start, end;
+        while ((start = lyrics[4].indexOf('[')) > -1) {
+            end = lyrics[4].indexOf(']');
+            lyrics[4] = lyrics[4].substring(0, start) + lyrics[4].substring(end+1);
+        }
+        // Also turn every \n into a <br>
+        lyrics[4] = lyrics[4].replaceAll("\n", "<br>");
+        // And now print it
+        newLyric += '<span class="query">' + lyrics[4] + '</span>';
+
+    }
+
+    /*
+
+    '<span class="query">Purring in my lap</span>' +
+    ' cause it loves me</span><br>' +
+    'Flexing like a goddamn acrobat' +
+    '</p>Karma, <i>Midnights</i>' +
+    '<hr></div>';
+     */
 
     $('#messages').append(newLyric);
 }
@@ -83,14 +138,17 @@ function search(input_text) {
     // (^|.*\n)(.*[\s\[\]0-9:.](a[^\s\[\]0-9:.]*[\s\[\]0-9:.]+t[^\s\[\]0-9:.]*[\s\[\]0-9:.]+b[^\s\[\]0-9:.]*).*($|\n.*))
     // (^|.*\n)((.*[\s\[\]0-9:.](a[^\s\[\]0-9:.]*[\s\[\]0-9:.]+t[^\s\[\]0-9:.]*[\s\[\]0-9:.]+b[^\s\[\]0-9:.]*).*)($|\n.*))
     // (^|.*\n)(.*[\s\[\]0-9:.'](d[^\s\[\]0-9:.]*[\s\[\]0-9:.']+c[^\s\[\]0-9:.]*[\s\[\]0-9:.']+i[^\s\[\]0-9:.]*).*)($|\n(.*))
+    // (^|.*\n)((.*[\s\[\]0-9:.'])(o[^\s\[\]0-9:.]*[\s\[\]0-9:.']+i[^\s\[\]0-9:.]*[\s\[\]0-9:.']+a[^\s\[\]0-9:.]*)(.*)($|\n(.*)))
 
     // Group 1: Prefix (lyric before, empty if N/A)
-    // Group 2: Lyrix Lines (all line(s) containing the lyrics)
-    // Group 3: Lyrics (the actual phrase that matches)
-    // Group 4: Suffix with leading space [Don't Use This]
-    // Group 5: Suffix (lyric after, empty if N/A)
+    // Group 2: Lyrix Lines (all line(s) containing the lyrics) [Don't Use This]
+    // Group 3: Pre-Lyrics (lyrics before but on the same line)
+    // Group 4: Lyrics (the actual phrase that matches)
+    // Group 5: Suf-Lyrics (lyrics after but on the same line)
+    // Group 6: Suffix with leading space [Don't Use This]
+    // Group 7: Suffix (lyric after, empty if N/A)
     let regex = input_text.split("").join("[^\\s\\[\\]0-9:.']*[\\s\\[\\]0-9:.]+");  // Rest of word + whitespace
-    regex = '\(^|.*\\n)(.*[\\s\\[\\]0-9:.\'](' + regex + '[^\\s\\[\\]0-9:.]*).*)($|\\n(.*))';  // Beginning and end
+    regex = '\(^|.*\\n)((.*[\\s\\[\\]0-9:.\'])(' + regex + '[^\\s\\[\\]0-9:.]*)(.*)($|\\n(.*)))';  // Beginning and end
     let myRe = new RegExp(regex, 'gi');
     console.log(regex);
     // Now, search for matches
@@ -107,6 +165,7 @@ function search(input_text) {
             let result;
             let embed_player = document.getElementById("embed-player");
             while (result = myRe.exec(lyrics)) {
+                console.log(result);
                 addSearchResult(result, header);
                 // Change the youtube link!
                 loadVideo('XzOvgu3GPwY', 0, 60);
