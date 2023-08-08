@@ -145,8 +145,9 @@ function addSearchResult(lyrics, header) {
         // Just remove the useless timetag and print it
         let pos = lyrics[7].indexOf("]");
         let suffix = lyrics[7].substring(pos+1);
-        newLyric += '' + suffix + '</p>';
+        newLyric += '' + suffix;
     }
+    newLyric += '' + '</p>';
 
     // Finally, metadata!
     newLyric += '' + title + ', <i>' + album + '</i><hr></div>';
