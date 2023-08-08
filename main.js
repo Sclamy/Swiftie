@@ -5,6 +5,15 @@ document.addEventListener('DOMContentLoaded', function() {
             newMessage(e);
         }
     });
+    const messages = document.getElementById('messages');
+    messages.addEventListener('click', function(e) {
+        // console.log(e.target.className);
+        if (e.target.className == "query") {  // Go to link!!
+            let id = e.target.getAttribute("videoid");
+            // console.log('id is ' + id);
+            loadVideo(id, 0, 60);
+        }
+    });
 })
 
 function newMessage(e) {  // When a message is received from user
@@ -120,7 +129,7 @@ function addSearchResult(lyrics, header) {
         // Also turn every \n into a <br>
         lyrics[4] = lyrics[4].replaceAll("\n", "<br>");
         // And now print it
-        newLyric += '<span class="query">' + lyrics[4] + '</span>';
+        newLyric += '<span class="query" videoid="' + id + '">' + lyrics[4] + '</span>';
 
     }
 
@@ -146,9 +155,6 @@ function addSearchResult(lyrics, header) {
     '</p>Karma, <i>Midnights</i>' +
     '<hr></div>';
      */
-
-    // Change the youtube link!  # TODO Make this happen on click
-    loadVideo(id, 0, 60);
 
     $('#messages').append(newLyric);
 }
