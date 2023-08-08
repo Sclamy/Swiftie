@@ -45,9 +45,35 @@ function addReflectionMessage(text) {  // Text from the reflection
 }
 
 function addSearchResult(lyrics, header) {
+    // First extract title, album name, and video ID
+    let titleregex = RegExp('\\[ti:(.*)\\]');
+    let title = titleregex.exec(header);
+    if (title) {
+        title = title[1];
+    } else {
+        title = "???";
+    }
+
+    let albumregex = RegExp('\\[al:(.*)\\]');
+    let album = albumregex.exec(header);
+    console.log('album: ' + album);
+    if (album) {
+        album = album[1];
+    } else {
+        album = "???";
+    }
+
+    let idregex = RegExp('\\[id:(.*)\\]');
+    let id = idregex.exec(header);
+    if (id) {
+        id = id[1];
+    } else {
+        id = "dQw4w9WgXcQ";
+    }
+
+    // Now let's make the element!!!
     let startTime = null;  // this is unparsed, in form mm:ss.ss
-    let newLyric = '<div class="SongLyric">' +
-        '<p>';
+    let newLyric = '<div class="SongLyric" videoid="' + id + '"><p>';
 
     // Prefix
     if (lyrics[1] && lyrics[1] != '\n') {
@@ -110,6 +136,8 @@ function addSearchResult(lyrics, header) {
         newLyric += '' + suffix + '</p>';
     }
 
+    // Finally, metadata!
+    newLyric += '' + title + ', <i>' + album + '</i><hr></div>';
     /*
 
     '<span class="query">Purring in my lap</span>' +
@@ -118,6 +146,9 @@ function addSearchResult(lyrics, header) {
     '</p>Karma, <i>Midnights</i>' +
     '<hr></div>';
      */
+
+    // Change the youtube link!  # TODO Make this happen on click
+    loadVideo(id, 0, 60);
 
     $('#messages').append(newLyric);
 }
@@ -180,8 +211,6 @@ function search(input_text) {
                 console.log(result);
 
                 addSearchResult(result, header);
-                // Change the youtube link!
-                loadVideo('XzOvgu3GPwY', 0, 60);
             }
             console.log('Matches: ' + matches);
         })
