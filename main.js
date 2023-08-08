@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let id = e.target.getAttribute("videoid");
             let startTime = e.target.getAttribute("starttime");
             // console.log('id is ' + id);
-            console.log('startTime: ' + startTime);
+            // console.log('startTime: ' + startTime);
             loadVideo(id, startTime, 1000);
         }
     });
@@ -75,7 +75,7 @@ function addSearchResult(lyrics, header) {
 
     let albumregex = RegExp('\\[al:(.*)\\]');
     let album = albumregex.exec(header);
-    console.log('album: ' + album);
+    // console.log('album: ' + album);
     if (album) {
         album = album[1];
     } else {
@@ -218,34 +218,46 @@ async function search(input_text) {
     let regex = input_text.split("").join("[a-zA-Z\']*[^a-zA-Z]+");  // Rest of word + whitespace
     regex = '\(^|.*\\n)((.*[^a-zA-Z])(' + regex + '[a-zA-Z\']*)(.*)($|\\n(.*)))';  // Beginning and end
     let myRe = new RegExp(regex, 'gi');
-    console.log(regex);
+    // console.log(regex);
+
+    let lyricslist;
+    await fetch("lyricslist.txt")
+        .then(res => res.text())
+        .then(text => {
+            lyricslist = text.split("\r\n");
+        });
+    console.log(lyricslist);
+
     // Now, search for matches
     matches = 0;
-    foundLyrics = new Set();
-    await fetch("lyrics/Karma by Taylor Swift.lrc")
-        .then((res) => res.text())
-        .then((text) => {
-            // do something with "text"
-            // split into header and lyrics
-            let pos = text.indexOf("[00");
-            let header = text.substring(0, pos);
-            let lyrics = text.substring(pos);
+    for (const songname of lyricslist) {
+        foundLyrics = new Set();
+        await fetch("lyrics/" + songname + ".lrc")
+            .then((res) => res.text())
+            .then((text) => {
+                // do something with "text"
+                // split into header and lyrics
+                let pos = text.indexOf("[00");
+                let header = text.substring(0, pos);
+                let lyrics = text.substring(pos);
 
-            let result;
-            while (result = myRe.exec(lyrics)) {
-                // Check if already exists
+                let result;
+                while (result = myRe.exec(lyrics)) {
+                    // Check if already exists
 
 
-                myRe.lastIndex = result.index + result[1].length + result[3].length + 1;
-                console.log(result);
+                    myRe.lastIndex = result.index + result[1].length + result[3].length + 1;
+                    // console.log(result);
 
-                addSearchResult(result, header);
-            }
-        })
-        .catch((e) => console.error(e));
-    // console.log('Matches: ' + matches);
-    let counter = document.getElementById("counter");
-    counter.textContent = 'Found ' + matches + ' matches';
+                    addSearchResult(result, header);
+                }
+            })
+            .catch((e) => console.error(e));
+        // console.log('Matches: ' + matches);
+        let counter = document.getElementById("counter");
+        counter.textContent = 'Found ' + matches + ' matches';
+    }
+
 }
 
 function convertSeconds(startTime) {
