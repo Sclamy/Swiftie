@@ -46,11 +46,11 @@ function addReflectionMessage(text) {  // Text from the reflection
 
 function addSearchResult(text, header) {
 
-    let newLyric = '<div className="SongLyric">' +
+    let newLyric = '<div class="SongLyric">' +
         '<p>Sweet like honey, karma is a cat<br>' +
-        '<span className="lyric">' +
-        '<span className="query">Purring in my lap</span>' +
-        'cause it loves me</span><br>' +
+        '<span class="lyric">' +
+        '<span class="query">Purring in my lap</span>' +
+        ' cause it loves me</span><br>' +
         'Flexing like a goddamn acrobat' +
         '</p>Karma, <i>Midnights</i>' +
         '<hr></div>';

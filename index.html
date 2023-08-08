@@ -11,8 +11,6 @@
 
     <input id = "txt-input" type = "text" size = "50"></input>
     <div id = "messages">
-        <l class = "message" align = "right">Second Message</l>
-        <l class = "message" align = "right">First Message</l>
     </div>
 
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
@@ -31,8 +29,8 @@
         var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '200',
-                width: '400',
+                height: '25%',
+                width: '20%',
                 videoId: 'X-dHfqkECY8',
                 playerVars: {
                     'playsinline': 1,
