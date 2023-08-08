@@ -162,6 +162,7 @@ function search(input_text) {
     console.log(regex);
     // Now, search for matches
 
+    let matches = 0;
     fetch("lyrics/Karma by Taylor Swift.lrc")
         .then((res) => res.text())
         .then((text) => {
@@ -174,11 +175,15 @@ function search(input_text) {
             let result;
             let embed_player = document.getElementById("embed-player");
             while (result = myRe.exec(lyrics)) {
+                myRe.lastIndex = result.index + result[1].length + result[3].length + 1;
+                matches += 1;
                 console.log(result);
+
                 addSearchResult(result, header);
                 // Change the youtube link!
                 loadVideo('XzOvgu3GPwY', 0, 60);
             }
+            console.log('Matches: ' + matches);
         })
         .catch((e) => console.error(e));
 
