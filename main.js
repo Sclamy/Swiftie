@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     var txt_input = document.getElementById("txt-input");
-    txt_input.addEventListener("keydown", function (e) {
-        if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
+    txt_input.addEventListener("input", function (e) {
+        /*if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
             newMessage(e);
-        }
+        }*/
+        newMessage(e);
     });
     const messages = document.getElementById('messages');
     messages.addEventListener('click', function(e) {
@@ -26,7 +27,7 @@ function newMessage(e) {  // When a message is received from user
     // TODO: Validate input?
 
     // Clear the input
-    txt_input.value = '';
+    // txt_input.value = '';
 
     // Add a new element!
     // $('.message').length
