@@ -176,7 +176,7 @@ function respond(text) {
     addReflectionMessage(response);
 }
 
-function search(input_text) {
+async function search(input_text) {
     // We expect that text is a string of letters (and has been validated)
     // First, convert text to regex
     // \n.*[\s\[\]0-9:.]W[^\s\[\]0-9:.]*[\s\[\]0-9:.]+K[^\s\[\]0-9:.]*[\s\[\]0-9:.]+A[^\s\[\]0-9:.]*
@@ -204,7 +204,7 @@ function search(input_text) {
     // Now, search for matches
 
     let matches = 0;
-    fetch("lyrics/Karma by Taylor Swift.lrc")
+    await fetch("lyrics/Karma by Taylor Swift.lrc")
         .then((res) => res.text())
         .then((text) => {
             // do something with "text"
@@ -222,10 +222,11 @@ function search(input_text) {
 
                 addSearchResult(result, header);
             }
-            console.log('Matches: ' + matches);
         })
         .catch((e) => console.error(e));
-
+    // console.log('Matches: ' + matches);
+    let counter = document.getElementById("counter");
+    counter.textContent = 'Found ' + matches + ' matches';
 }
 
 function convertSeconds(startTime) {
