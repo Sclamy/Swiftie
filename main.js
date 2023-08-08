@@ -56,9 +56,6 @@ function addSearchResult(lyrics, header) {
         startTime = lyrics[1].substring(1, pos);
         let prefix = lyrics[1].substring(pos+1);
         newLyric += '' + prefix + '<br>';
-        console.log(lyrics[1]);
-        console.log(startTime);
-        console.log(prefix);
     }
 
     // Text!
@@ -99,6 +96,18 @@ function addSearchResult(lyrics, header) {
         // And now print it
         newLyric += '<span class="query">' + lyrics[4] + '</span>';
 
+    }
+
+    if (lyrics[5]) {  // Theoretically, cannot include [], or it would be suffix
+        newLyric += '' + lyrics[5];
+    }
+    newLyric += '' + '</span><br>';
+
+    if (lyrics[7] && lyrics[7] != '\n') {
+        // Just remove the useless timetag and print it
+        let pos = lyrics[7].indexOf("]");
+        let suffix = lyrics[7].substring(pos+1);
+        newLyric += '' + suffix + '</p>';
     }
 
     /*
@@ -147,7 +156,7 @@ function search(input_text) {
     // Group 5: Suf-Lyrics (lyrics after but on the same line)
     // Group 6: Suffix with leading space [Don't Use This]
     // Group 7: Suffix (lyric after, empty if N/A)
-    let regex = input_text.split("").join("[^\\s\\[\\]0-9:.']*[\\s\\[\\]0-9:.]+");  // Rest of word + whitespace
+    let regex = input_text.split("").join("[^\\s\\[\\]0-9:.]*[\\s\\[\\]0-9:.\']+");  // Rest of word + whitespace
     regex = '\(^|.*\\n)((.*[\\s\\[\\]0-9:.\'])(' + regex + '[^\\s\\[\\]0-9:.]*)(.*)($|\\n(.*)))';  // Beginning and end
     let myRe = new RegExp(regex, 'gi');
     console.log(regex);
