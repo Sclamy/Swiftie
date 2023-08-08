@@ -24,6 +24,8 @@ function newMessage(e) {  // When a message is received from user
 
     respond(text);
 
+    search(text);
+
     // Remove all hidden elements
     $('.message').each(function() {
         let el = $(this);
@@ -48,4 +50,27 @@ function respond(text) {
     response = 'This is a response to "' + text + '"';  // Template for now
 
     addReflectionMessage(response);
+}
+
+function search(input_text) {
+    // We expect that text is a string of letters (and has been validated)
+    // First, convert text to regex
+    // \n.*[\s\[\]0-9:.]W[^\s\[\]0-9:.]*[\s\[\]0-9:.]+K[^\s\[\]0-9:.]*[\s\[\]0-9:.]+A[^\s\[\]0-9:.]*
+    let regex = input_text.split("").join("[^\\s\\[\\]0-9:.]*[\\s\\[\\]0-9:.]+");  // Rest of word + whitespace
+    regex = '\\n.*[\\s\\[\\]0-9:.]' + regex + '[^\\s\\[\\]0-9:.]*';  // Beginning and end
+    let myRe = new RegExp(regex, 'gi');
+    console.log(regex);
+    // Now, search for matches
+
+    fetch("lyrics/Karma by Taylor Swift.lrc")
+        .then((res) => res.text())
+        .then((text) => {
+            // do something with "text"
+            let result;
+            while (result = myRe.exec(text)) {
+                addReflectionMessage(result);
+            }
+        })
+        .catch((e) => console.error(e));
+
 }
