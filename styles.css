@@ -1,12 +1,12 @@
 div#messages {
-    height: 15%;
+    height: 45%;
     width: 25%;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
 
     position:fixed;
-    top: 50%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
 
@@ -20,7 +20,7 @@ div#messages {
     padding: 2px;
     width: 25%;
     position:fixed;
-    top: 40%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -28,7 +28,7 @@ div#messages {
 #player{
     box-sizing: border-box;
     position:fixed;
-    top: 25%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -40,6 +40,22 @@ div#messages {
 .lyric{
 
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: darkgray;
+    border-radius: 4px;
+    transition: 1s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: lavender;
+    transition: 1s;
+}
+
 
 label#txt-input-label      {display:block; background:red; width:500px; margin:auto; text-align:right; vertical-align:middle; white-space:pre-wrap;}
 
