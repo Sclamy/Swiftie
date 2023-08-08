@@ -67,8 +67,10 @@ function search(input_text) {
         .then((text) => {
             // do something with "text"
             let result;
+            let embed_player = document.getElementById("embed-player");
             while (result = myRe.exec(text)) {
                 addReflectionMessage(result);
+                // Change the youtube link!
             }
         })
         .catch((e) => console.error(e));
