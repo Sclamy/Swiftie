@@ -71,6 +71,7 @@ function search(input_text) {
             while (result = myRe.exec(text)) {
                 addReflectionMessage(result);
                 // Change the youtube link!
+                loadVideo('XzOvgu3GPwY', 0, 60);
             }
         })
         .catch((e) => console.error(e));

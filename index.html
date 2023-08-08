@@ -64,6 +64,11 @@
         function stopVideo() {
             player.stopVideo();
         }
+
+        function loadVideo(videoID, startTime, endTime){
+            player.loadVideoById(videoID, startTime, endTime);
+            player.playVideo();
+        }
     </script>
 
 </body>
