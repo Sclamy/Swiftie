@@ -221,7 +221,7 @@ async function search(input_text) {
     // console.log(regex);
 
     let lyricslist;
-    await fetch("lyricslist.txt")
+    await fetch("lyrics/00lyricslist.txt")
         .then(res => res.text())
         .then(text => {
             lyricslist = text.split("\r\n");
