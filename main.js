@@ -235,6 +235,8 @@ async function search(input_text) {
         await fetch("lyrics/" + songname + ".lrc")
             .then((res) => res.text())
             .then((text) => {
+                console.log(songname);
+                console.log(text);
                 // do something with "text"
                 // split into header and lyrics
                 let pos = text.indexOf("[00");
