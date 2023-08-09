@@ -224,7 +224,7 @@ async function search(input_text) {
     await fetch("lyrics/00lyricslist.txt")
         .then(res => res.text())
         .then(text => {
-            lyricslist = text.split("\r\n");
+            lyricslist = text.split("\n");
         });
     console.log(lyricslist);
 
