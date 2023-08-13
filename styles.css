@@ -81,26 +81,13 @@ p {
     width: 35px
 }
 
-.InfoButton:hover {
-    background-color: #d3d3d3;
-    cursor: pointer;
-    transition: .5s
-}
-
-.ModalBox {
-    background-color: #fff;
-    border: 3px #e6e6fa;
-    border-radius: 10px;
+#help {
     font-size: 16px;
-    left: 30%;
-    line-height: 24px;
-    padding: 16px;
-    position: absolute;
-    text-align: center;
-    top: 25%;
-    transition: .5s;
-    width: 40%;
-    z-index: 100
+    font-weight: 200;
+    position:fixed;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .top-text {
@@ -122,6 +109,28 @@ p {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.InfoButton {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    bottom: 2%;
+    right: 2%;
+    padding: 5px;
+    font-size: 25px;
+    line-height: 35px;
+    background-color: lavender;
+    font-weight: 300;
+    transition: 0.5s;
+}
+
+.InfoButton:hover {
+    background-color: lightgray;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
 
 ::-webkit-scrollbar {
     width: 8px;

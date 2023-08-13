@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
             loadVideo(id, startTime, 1000);
         }
     });
+    const helpQuery = document.getElementById('helpquery');
+    helpQuery.addEventListener('click', function(e) {
+        // console.log(e.target.className);
+        //play generic example video
+        loadVideo("dQw4w9WgXcQ", 0, 2);
+
+    });
 })
 
 function newMessage(e) {  // When a message is received from user
