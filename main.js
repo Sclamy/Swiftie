@@ -195,6 +195,9 @@ function respond(text) {
 }
 
 async function search(input_text) {
+    // Cancellation flag basically
+    var txt_input = document.getElementById("txt-input");
+
     // We expect that text is a string of letters (and has been validated)
     // First, convert text to regex
     // \n.*[\s\[\]0-9:.]W[^\s\[\]0-9:.]*[\s\[\]0-9:.]+K[^\s\[\]0-9:.]*[\s\[\]0-9:.]+A[^\s\[\]0-9:.]*
@@ -250,7 +253,9 @@ async function search(input_text) {
 
                     myRe.lastIndex = result.index + result[1].length + result[3].length + 1;
                     // console.log(result);
-
+                    if (txt_input.value != input_text) {  // Check if we need to cancel
+                        return;
+                    }
                     addSearchResult(result, header);
                 }
             })
